@@ -352,6 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     generationConfig: {
                         temperature: 0.7,
                         maxOutputTokens: maxTokens,
+                        ...(modelToUse.includes('gemini-2.0') ? { } : {thinkingConfig: { thinkingBudget: 0 }}),
                     }
                 })
             });
@@ -378,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const jsonStr = line.substring(6);
                             try {
                                 const parsed = JSON.parse(jsonStr);
-                                if (parsed.candidates && parsed.candidates[0].content.parts[0].text) {
+                                if (parsed.candidates?.[0]?.content?.parts?.[0]?.text) {
                                     const textPart = parsed.candidates[0].content.parts[0].text;
                                     if (isFirstChunk && textPart.trim()) {
                                         editor.innerText = '';
@@ -396,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return trimEllipsis(accumulatedText);
             } else {
                 const data = await response.json();
-                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content.parts.length > 0) {
+                if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
                     return trimEllipsis(data.candidates[0].content.parts[0].text.trim());
                 } else {
                     const blockReason = data.promptFeedback?.blockReason;
