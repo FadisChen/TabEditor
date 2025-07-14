@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkDeviceAndDisplayButton() {
-        if (isMobileOrTablet()) {
+        const isEditorEmpty = editor.innerText.trim() === '';
+        if (isMobileOrTablet() && !isEditorEmpty) {
             acceptSuggestionBtnContainer.classList.remove('hidden');
         } else {
             acceptSuggestionBtnContainer.classList.add('hidden');
