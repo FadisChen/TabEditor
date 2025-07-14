@@ -282,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.execCommand('insertText', false, text);
             currentSuggestion = '';
             handleEditorInput();
+            editor.blur(); // Dismiss soft keyboard on mobile
         }
     }
 
